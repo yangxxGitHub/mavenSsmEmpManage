@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.IEmpMapper">
+<!-- 员工添加 -->
+<insert id="save" parameterType="com.po.Emp">
+insert into emp(ename,sex,address,birthday,photo,depid) values(#{ename},#{sex},#{address},#{birthday},#{photo},#{depid})
+</insert>
+<!-- 查询最大id的编号 -->
+<select id="findMaxEid" resultType="Integer">
+select max(eid) from emp
+</select>
+<!-- 分页查询-->
+<select id="findPageAll" resultType="com.po.Emp">
+select e.*,d.depname from emp e,dep d where e.depid=d.depid order by e.eid limit ${(page-1)*rows},${rows}
+</select>
+<!-- 总记录数-->
+<select id="findMaxRows" resultType="Integer">
+select count(*) from emp
+</select>
+<!--删除 -->
+<delete id="delById" parameterType="Integer">
+delete from emp where eid=#{eid}
+</delete>
+<!-- 查询单个 -->
+<select id="findById" parameterType="Integer" resultType="com.po.Emp">
+select e.*,d.depname from emp e,dep d where e.depid=d.depid and eid=#{eid}
+</select>
+<!-- 修改 -->
+<update id="update" parameterType="com.po.Emp">
+update emp set ename=#{ename},sex=#{sex},address=#{address},birthday=#{birthday},photo=#{photo},depid=#{depid} where eid=#{eid}
+</update>
+</mapper>
